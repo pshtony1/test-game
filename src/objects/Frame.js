@@ -31,7 +31,7 @@ class Frame {
         const animate = this.getFrameAnimate(
           {
             toWidth: "80%",
-            toHeight: "50%",
+            toHeight: "60%",
           },
           {
             x: this.canvas.width / 2 - this.Player.size / 2,
@@ -49,6 +49,34 @@ class Frame {
     } else if (this.state === 1) {
       this.drawMainFrame();
       this.checkCollide();
+
+      if (this.stateChanging) {
+        this.stateChanging = false;
+        this.state = 2;
+      }
+    } else if (this.state === 2) {
+      this.drawMainFrame();
+      if (!this.stateChanging) {
+        this.checkCollide();
+      } else {
+        const animate = this.getFrameAnimate(
+          {
+            toWidth: "50%",
+            toHeight: "50%",
+          },
+          {
+            x: this.canvas.width / 2 - this.Player.size / 2,
+            y: this.canvas.height / 2 - this.Player.size / 2,
+          }
+        );
+
+        const isAniEnd = animate();
+
+        if (isAniEnd) {
+          this.stateChanging = false;
+          this.state = 0;
+        }
+      }
     }
   }
 
@@ -63,7 +91,7 @@ class Frame {
 
   drawMainFrame() {
     this.ctx.beginPath();
-    this.ctx.strokeStyle = "white";
+    this.ctx.strokeStyle = "#f1f1f1";
     this.ctx.lineWidth = this.thickness;
 
     this.ctx.strokeRect(
