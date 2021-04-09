@@ -1,0 +1,8 @@
+{
+  "name": "avoid-blobs-remaster",
+  "version": "1.0.0",
+  "description": "Remastering Avoid Blobs more better",
+  "main": "main.js",
+  "author": "Feca <pshtony1@naver.com>",
+  "license": "MIT"
+}
