@@ -25,7 +25,7 @@ class Player {
     this.movement();
   }
 
-  resize() {
+  resize(beforeSize) {
     this.pos = {
       x: this.canvas.width / 2 - this.size / 2,
       y: this.canvas.height / 2 - this.size / 2,

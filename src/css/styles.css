@@ -20,7 +20,7 @@ body {
 }
 
 #App {
-  width: 90%;
+  width: 100%;
   max-width: 600px;
   position: relative;
   border: 1px solid teal;

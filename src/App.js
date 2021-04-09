@@ -4,8 +4,12 @@ import Player from "./objects/Player.js";
 class App {
   constructor($target) {
     this.$target = $target;
-    this.renderCanvas.bind(this)();
+    this.renderCanvas.call(this);
     this.FPS = 60;
+    this.beforeSize = {
+      width: this.canvas.width,
+      height: this.canvas.height,
+    };
 
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
@@ -25,7 +29,9 @@ class App {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.Frame.update();
-    this.Player.update();
+    if (!this.Frame.stateChanging) {
+      this.Player.update();
+    }
 
     requestAnimationFrame(this.update.bind(this));
   }
@@ -36,8 +42,11 @@ class App {
     this.canvas.width = canvasRect.width;
     this.canvas.height = canvasRect.height;
 
-    if (this.Frame) this.Frame.resize();
-    if (this.Player) this.Player.resize();
+    if (this.Frame) this.Frame.resize(Object.assign(this.beforeSize));
+    if (this.Player) this.Player.resize(Object.assign(this.beforeSize));
+
+    this.beforeSize.width = this.canvas.width;
+    this.beforeSize.height = this.canvas.height;
   }
 
   renderCanvas() {
