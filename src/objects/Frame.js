@@ -1,13 +1,13 @@
 class Frame {
-  constructor({ $target, canvas, ctx, Player }) {
-    this.$target = $target;
+  constructor({ state, canvas, ctx, Player }) {
+    this.state = state;
     this.canvas = canvas;
     this.ctx = ctx;
     this.Player = Player;
 
-    this.state = 0;
-    this.stateChanging = false;
-    this.thickness = 4;
+    this.thickness = 6;
+    this.resizeThickness();
+
     this.frameRect = {
       x: Math.floor(this.canvas.width / 4 - this.thickness / 2),
       y: Math.floor(this.canvas.height / 4 - this.thickness / 2),
@@ -16,23 +16,28 @@ class Frame {
     };
 
     window.addEventListener("keydown", (e) => {
-      if (e.keyCode === 32 && !this.stateChanging) {
-        this.stateChanging = true;
+      if (
+        e.keyCode === 32 &&
+        !this.state.stateChanging &&
+        this.state.gameState !== 1
+      ) {
+        this.state.stateChanging = true;
       }
     });
   }
 
   update() {
-    if (this.state === 0) {
+    if (this.state.gameState === 0) {
       this.drawMainFrame();
-      if (!this.stateChanging) {
+      if (!this.state.stateChanging) {
         this.checkCollide();
       } else {
         const animate = this.getFrameAnimate(
           {
-            toWidth: "80%",
-            toHeight: "60%",
+            toWidth: "70%",
+            toHeight: "70%",
           },
+          8,
           {
             x: this.canvas.width / 2 - this.Player.size / 2,
             y: this.canvas.height / 2 - this.Player.size / 2 + 100,
@@ -42,21 +47,21 @@ class Frame {
         const isAniEnd = animate();
 
         if (isAniEnd) {
-          this.stateChanging = false;
-          this.state = 1;
+          this.state.stateChanging = false;
+          this.state.gameState = 1;
         }
       }
-    } else if (this.state === 1) {
+    } else if (this.state.gameState === 1) {
       this.drawMainFrame();
       this.checkCollide();
 
-      if (this.stateChanging) {
-        this.stateChanging = false;
-        this.state = 2;
+      if (this.state.stateChanging) {
+        this.state.stateChanging = false;
+        this.state.gameState = 2;
       }
-    } else if (this.state === 2) {
+    } else if (this.state.gameState === 2) {
       this.drawMainFrame();
-      if (!this.stateChanging) {
+      if (!this.state.stateChanging) {
         this.checkCollide();
       } else {
         const animate = this.getFrameAnimate(
@@ -64,6 +69,7 @@ class Frame {
             toWidth: "50%",
             toHeight: "50%",
           },
+          8,
           {
             x: this.canvas.width / 2 - this.Player.size / 2,
             y: this.canvas.height / 2 - this.Player.size / 2,
@@ -73,14 +79,16 @@ class Frame {
         const isAniEnd = animate();
 
         if (isAniEnd) {
-          this.stateChanging = false;
-          this.state = 0;
+          this.state.stateChanging = false;
+          this.state.gameState = 0;
         }
       }
     }
   }
 
   resize(beforeSize) {
+    this.resizeThickness();
+
     this.frameRect.width *= this.canvas.width / beforeSize.width;
     this.frameRect.height *= this.canvas.height / beforeSize.height;
     this.frameRect.x =
@@ -103,6 +111,15 @@ class Frame {
 
     this.ctx.stroke();
     this.ctx.closePath();
+  }
+
+  resizeThickness() {
+    const relu = (x) => {
+      return x >= 0 ? x : 0;
+    };
+
+    const resizedThickness = relu(this.canvas.width - 500) / 50 + 4;
+    this.thickness = resizedThickness >= 5 ? 6 : 4;
   }
 
   checkCollide() {
@@ -141,7 +158,7 @@ class Frame {
     }
   }
 
-  getFrameAnimate({ toWidth, toHeight }, initPlayerPos = null) {
+  getFrameAnimate({ toWidth, toHeight }, speed = 8, initPlayerPos = null) {
     if (typeof toWidth === "string") {
       toWidth =
         (this.canvas.width * parseInt(toWidth.slice(0, toWidth.length - 1))) /
@@ -161,7 +178,6 @@ class Frame {
       width: toWidth,
       height: toHeight,
     };
-    const speed = 8;
 
     const animate = () => {
       if (Math.abs(endPoint.x - this.frameRect.x) >= 1) {

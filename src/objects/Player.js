@@ -1,8 +1,10 @@
 class Player {
-  constructor({ $target, canvas, ctx }) {
+  constructor({ state, canvas, ctx }) {
+    this.state = state;
     this.canvas = canvas;
     this.ctx = ctx;
     this.size = 20;
+    this.resizeSize();
     this.pos = {
       x: this.canvas.width / 2 - this.size / 2,
       y: this.canvas.height / 2 - this.size / 2,
@@ -15,21 +17,44 @@ class Player {
       lower: 0,
       upper: 3,
     };
-    this.color = "red";
+    this.color = "rgba(255, 255, 255, 0.6)";
+    this.resizeFactor = 1;
+    this.canMove = true;
 
     this.setKey();
+    this.updateResizeFactor({ width: 600 });
   }
 
   update() {
     this.drawPlayer();
-    this.movement();
+
+    if (this.state.gameState !== 2 && this.canMove) {
+      this.movement();
+    }
   }
 
   resize(beforeSize) {
-    this.pos = {
-      x: this.canvas.width / 2 - this.size / 2,
-      y: this.canvas.height / 2 - this.size / 2,
+    this.updateResizeFactor(beforeSize);
+    this.resizePos(beforeSize);
+    this.resizeSize();
+  }
+
+  updateResizeFactor(beforeSize) {
+    this.resizeFactor = this.canvas.width / beforeSize.width;
+  }
+
+  resizePos(beforeSize) {
+    this.pos.x *= this.canvas.width / beforeSize.width;
+    this.pos.y *= this.canvas.height / beforeSize.height;
+  }
+
+  resizeSize() {
+    const relu = (x) => {
+      return x >= 0 ? x : 0;
     };
+
+    const resizedSize = relu(this.canvas.width - 500) / (100 / 4) + 16;
+    this.size = Math.ceil(resizedSize);
   }
 
   movement() {
@@ -101,14 +126,18 @@ class Player {
 
     // Update Player Position based on speed
     // When Player Moving Digonaly
+    const movementFactor = 4 / 3;
+
     if (checkDigonal === 2) {
       const slowFactor = 0.8; // Bigger than 1 / sqrt(2)
 
-      this.pos.x += ((this.speed.h * 4) / 3) * slowFactor;
-      this.pos.y += ((this.speed.v * 4) / 3) * slowFactor;
+      this.pos.x +=
+        this.speed.h * this.resizeFactor * movementFactor * slowFactor;
+      this.pos.y +=
+        this.speed.v * this.resizeFactor * movementFactor * slowFactor;
     } else {
-      this.pos.x += (this.speed.h * 4) / 3;
-      this.pos.y += (this.speed.v * 4) / 3;
+      this.pos.x += this.speed.h * this.resizeFactor * movementFactor;
+      this.pos.y += this.speed.v * this.resizeFactor * movementFactor;
     }
   }
 
