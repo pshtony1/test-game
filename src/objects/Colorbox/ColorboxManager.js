@@ -1,6 +1,6 @@
 import Colorbox from "./Colorbox.js";
 
-class Colorboxes {
+class ColorboxManager {
   constructor({ state, canvas, ctx, Frame, Player, Text }) {
     this.state = state;
     this.canvas = canvas;
@@ -105,4 +105,4 @@ class Colorboxes {
   }
 }
 
-export default Colorboxes;
+export default ColorboxManager;

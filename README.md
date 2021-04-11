@@ -18,6 +18,14 @@ Remastering Avoid Blobs more better
   - Eater의 기본적인 기능 구현(Animation, Player와 충돌시 사망)
   - 자질구레한 버그와 resize 이벤트 개선
 
+- 2021-04-11
+
+  - 게임 Timer 구현
+  - 최고 점수 구현
+  - Eater의 중력(빨아들임) 구현
+  - Enemy 구현
+  - Eater / Enemy 충돌 구현(Animation, 크기 증가)
+
 ## 문제를 해결한 것들
 
 - 2021-04-10

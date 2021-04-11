@@ -40,7 +40,7 @@ class Frame {
           8,
           {
             x: this.canvas.width / 2 - this.Player.size / 2,
-            y: this.canvas.height / 2 - this.Player.size / 2 + 100,
+            y: this.frameRect.y + (this.frameRect.height * 4) / 5,
           }
         );
 
@@ -55,10 +55,10 @@ class Frame {
       this.drawMainFrame();
       this.checkCollide();
 
-      if (this.state.stateChanging) {
-        this.state.stateChanging = false;
-        this.state.gameState = 2;
-      }
+      // if (this.state.stateChanging) {
+      //   this.state.stateChanging = false;
+      //   this.state.gameState = 2;
+      // }
     } else if (this.state.gameState === 2) {
       this.drawMainFrame();
       if (!this.state.stateChanging) {
@@ -80,6 +80,7 @@ class Frame {
 
         if (isAniEnd) {
           this.state.stateChanging = false;
+          this.state.gameStarted = false;
           this.state.gameState = 0;
         }
       }
