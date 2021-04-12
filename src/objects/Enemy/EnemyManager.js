@@ -1,12 +1,13 @@
 import Enemy from "./Enemy.js";
 
 class EnemyManager {
-  constructor({ state, canvas, ctx, Eater, Player }) {
+  constructor({ state, canvas, ctx, Eater, Player, EffectManager }) {
     this.state = state;
     this.canvas = canvas;
     this.ctx = ctx;
     this.Eater = Eater;
     this.Player = Player;
+    this.EffectManager = EffectManager;
     this.enemies = [];
     this.startCreating = false;
     this.resizeFactor = undefined;
@@ -46,9 +47,9 @@ class EnemyManager {
     const getRandomColor = () => {
       while (true) {
         const randomColor = {
-          r: Math.floor(Math.random() * 255),
-          g: Math.floor(Math.random() * 255),
-          b: Math.floor(Math.random() * 255),
+          r: Math.floor(Math.random() * 256),
+          g: Math.floor(Math.random() * 256),
+          b: Math.floor(Math.random() * 256),
           a: 1,
         };
         const relativeLuminance =
@@ -115,6 +116,14 @@ class EnemyManager {
     for (let i = this.enemies.length - 1; i >= 0; i--) {
       if (this.enemies[i].size < 1) {
         this.Eater.changeColor(this.enemies[i].color);
+        this.EffectManager.createEffect({
+          x: this.Eater.pos.x,
+          y: this.Eater.pos.y,
+          color: Object.assign({}, this.enemies[i].color),
+          size: this.Eater.size,
+          spreadSpeed: null,
+          lifeTime: null,
+        });
         this.Eater.size += 0.5 * this.resizeFactor;
         this.enemies.splice(i, 1);
       }

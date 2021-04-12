@@ -48,3 +48,4 @@ Remastering Avoid Blobs more better
 - Player 색 슬라이드로
 - Player와 game time text가 닿으면 opacity 조정
 - effect에 ease 효과
+- text move animation

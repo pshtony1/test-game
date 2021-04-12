@@ -1,11 +1,12 @@
 class Colorbox {
-  constructor({ color, radius, ctx, Player, Text }) {
+  constructor({ color, radius, ctx, Player, Text, EffectManager }) {
     this.color = color;
     this.radius = radius;
     this.pos = { x: undefined, y: undefined };
     this.ctx = ctx;
     this.Player = Player;
     this.Text = Text;
+    this.EffectManager = EffectManager;
     this.isColliding = false;
   }
 
@@ -20,7 +21,7 @@ class Colorbox {
 
   drawBox() {
     this.ctx.beginPath();
-    this.ctx.fillStyle = this.color;
+    this.ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.color.a})`;
     this.ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
     this.ctx.fill();
     this.ctx.closePath();
@@ -49,11 +50,29 @@ class Colorbox {
       if (!this.isColliding) {
         this.isColliding = true;
 
-        const beforeColor = this.Player.color;
+        const beforeColor = Object.assign({}, this.Player.color);
 
-        this.Player.color = this.color;
-        this.Text.subTitleFont.color = this.color;
+        this.Player.color = Object.assign({}, this.color);
+        this.Text.subTitleFont.color = Object.assign({}, this.color);
         this.color = beforeColor;
+        this.EffectManager.createEffect({
+          x: this.pos.x,
+          y: this.pos.y,
+          color: Object.assign({}, this.color),
+          size: this.radius,
+          spreadSpeed: 3,
+          lifeTime: 1000,
+          thickness: 6,
+        });
+        this.EffectManager.createEffect({
+          x: this.pos.x,
+          y: this.pos.y,
+          color: Object.assign({}, this.color),
+          size: this.radius,
+          spreadSpeed: 1.5,
+          lifeTime: 700,
+          thickness: 3,
+        });
       }
     } else {
       this.isColliding = false;

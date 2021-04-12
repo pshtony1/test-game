@@ -9,13 +9,23 @@ class Text {
       size: 30,
       maxSize: 30,
       name: "Comic Sans MS",
-      color: "white",
+      color: {
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 1,
+      },
     };
     this.subTitleFont = {
       size: 20,
       maxSize: 20,
       name: "Comic Sans MS",
-      color: "rgba(255, 255, 255, 0.6)",
+      color: {
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 0.6,
+      },
     };
     this.BestTimeFont = {
       size: 20,
@@ -93,7 +103,8 @@ class Text {
 
   drawTitle() {
     this.ctx.font = `${this.titleFont.size}px ${this.titleFont.name}`;
-    this.ctx.fillStyle = this.titleFont.color;
+    this.ctx.fillStyle = `rgba(${this.titleFont.color.r}, ${this.titleFont.color.g}, ${this.titleFont.color.b}, ${this.titleFont.color.a})`;
+
     this.ctx.textAlign = "center";
     this.ctx.fillText(
       "Avoid Blobs!",
@@ -104,7 +115,8 @@ class Text {
 
   drawSubTitle() {
     this.ctx.font = `${this.subTitleFont.size}px ${this.subTitleFont.name}`;
-    this.ctx.fillStyle = this.subTitleFont.color;
+    this.ctx.fillStyle = `rgba(${this.subTitleFont.color.r}, ${this.subTitleFont.color.g}, ${this.subTitleFont.color.b}, ${this.subTitleFont.color.a})`;
+
     this.ctx.textAlign = "center";
     this.ctx.fillText(
       "Press Space to start.",

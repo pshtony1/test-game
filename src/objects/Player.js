@@ -17,7 +17,12 @@ class Player {
       lower: 0,
       upper: 3,
     };
-    this.color = "rgba(255, 255, 255, 0.6)";
+    this.color = {
+      r: 255,
+      g: 255,
+      b: 255,
+      a: 0.6,
+    };
     this.resizeFactor = 1;
     this.canMove = true;
 
@@ -184,7 +189,7 @@ class Player {
   drawPlayer() {
     this.ctx.beginPath();
     this.ctx.rect(this.pos.x, this.pos.y, this.size, this.size);
-    this.ctx.fillStyle = this.color;
+    this.ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.color.a})`;
     this.ctx.fill();
     this.ctx.closePath();
   }

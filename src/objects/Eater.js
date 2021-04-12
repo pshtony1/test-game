@@ -124,13 +124,13 @@ class Eater {
 
   getEaterAnimate(toSize, duration = 1000, easing = [0, 0, 1, 1]) {
     const startTime = new Date().getTime();
+    const bezierEasing = bezier(...easing);
 
     const animate = () => {
       const curTime = new Date().getTime();
       const timeRate = (curTime - startTime) / duration;
 
       if (timeRate < 1) {
-        const bezierEasing = bezier(...easing);
         this.size = toSize * bezierEasing(timeRate);
         this.color.a = 0.5 + 0.5 * bezierEasing(timeRate);
 
@@ -145,13 +145,13 @@ class Eater {
 
   getEaterColorAnimate(toColor, duration = 1000, easing = [0, 0, 1, 1]) {
     const startTime = new Date().getTime();
+    const bezierEasing = bezier(...easing);
 
     const animate = () => {
       const curTime = new Date().getTime();
       const timeRate = (curTime - startTime) / duration;
 
       if (timeRate < 1) {
-        const bezierEasing = bezier(...easing);
         this.color.r =
           toColor.r > this.color.r
             ? Math.abs(toColor.r - this.color.r) * bezierEasing(timeRate) +

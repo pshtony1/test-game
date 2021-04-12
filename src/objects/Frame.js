@@ -38,8 +38,8 @@ class Frame {
       } else if (!this.frameAnimator) {
         this.frameAnimator = this.getFrameAnimate(
           {
-            toWidth: "70%",
-            toHeight: "70%",
+            toWidth: "65%",
+            toHeight: "65%",
           },
           600,
           [0.22, 0.68, 0, 1],
@@ -224,13 +224,13 @@ class Frame {
       height: toHeight,
     };
 
+    const bezierEasing = bezier(...easing);
+
     const animate = () => {
       const curTime = new Date().getTime();
       const timeRate = (curTime - startTime) / duration;
 
       if (timeRate < 1) {
-        const bezierEasing = bezier(...easing);
-
         this.frameRect.x =
           endPoint.x > startPoint.x
             ? Math.abs(endPoint.x - startPoint.x) * bezierEasing(timeRate) +

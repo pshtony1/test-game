@@ -5,6 +5,7 @@ import ColorboxManager from "./objects/Colorbox/ColorboxManager.js";
 import Eater from "./objects/Eater.js";
 import Timer from "./utils/Timer.js";
 import EnemyManager from "./objects/Enemy/EnemyManager.js";
+import EffectManager from "./objects/Effect/EffectManager.js";
 
 class App {
   constructor($target) {
@@ -13,7 +14,7 @@ class App {
     this.FPS = 60;
     this.state = {
       gameState: 0,
-      stateChanging: true,
+      stateChanging: false,
       gameStarted: false,
       bestTime: (0).toFixed(2),
       gameTime: (0).toFixed(2),
@@ -26,6 +27,11 @@ class App {
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
 
+    this.EffectManager = new EffectManager({
+      state: this.state,
+      canvas: this.canvas,
+      ctx: this.ctx,
+    });
     this.Player = new Player({
       state: this.state,
       canvas: this.canvas,
@@ -50,6 +56,7 @@ class App {
       Frame: this.Frame,
       Player: this.Player,
       Text: this.Text,
+      EffectManager: this.EffectManager,
     });
     this.Eater = new Eater({
       state: this.state,
@@ -70,6 +77,7 @@ class App {
       ctx: this.ctx,
       Eater: this.Eater,
       Player: this.Player,
+      EffectManager: this.EffectManager,
     });
 
     requestAnimationFrame(this.update.bind(this));
@@ -85,6 +93,7 @@ class App {
       this.Eater.update();
       this.EnemyManager.update();
     }
+    this.EffectManager.update();
     this.Text.update();
     this.Timer.update();
 
@@ -97,14 +106,16 @@ class App {
     this.canvas.width = canvasRect.width;
     this.canvas.height = canvasRect.height;
 
-    if (this.Frame) this.Frame.resize(Object.assign(this.beforeSize));
-    if (this.Player) this.Player.resize(Object.assign(this.beforeSize));
-    if (this.Text) this.Text.resize(Object.assign(this.beforeSize));
+    if (this.Frame) this.Frame.resize(Object.assign({}, this.beforeSize));
+    if (this.Player) this.Player.resize(Object.assign({}, this.beforeSize));
+    if (this.Text) this.Text.resize(Object.assign({}, this.beforeSize));
     if (this.ColorboxManager)
-      this.ColorboxManager.resize(Object.assign(this.beforeSize));
-    if (this.Eater) this.Eater.resize(Object.assign(this.beforeSize));
+      this.ColorboxManager.resize(Object.assign({}, this.beforeSize));
+    if (this.Eater) this.Eater.resize(Object.assign({}, this.beforeSize));
     if (this.EnemyManager)
-      this.EnemyManager.resize(Object.assign(this.beforeSize));
+      this.EnemyManager.resize(Object.assign({}, this.beforeSize));
+    if (this.EffectManager)
+      this.EffectManager.resize(Object.assign({}, this.beforeSize));
 
     this.beforeSize.width = this.canvas.width;
     this.beforeSize.height = this.canvas.height;

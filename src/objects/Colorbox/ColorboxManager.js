@@ -1,48 +1,79 @@
 import Colorbox from "./Colorbox.js";
 
 class ColorboxManager {
-  constructor({ state, canvas, ctx, Frame, Player, Text }) {
+  constructor({ state, canvas, ctx, Frame, Player, Text, EffectManager }) {
     this.state = state;
     this.canvas = canvas;
     this.ctx = ctx;
     this.Frame = Frame;
     this.Player = Player;
     this.Text = Text;
+    this.EffectManager = EffectManager;
     this.boxes = [
       new Colorbox({
-        color: "#e46a72",
+        color: {
+          r: 228,
+          g: 106,
+          b: 114,
+          a: 1,
+        },
         radius: this.Player.size * 0.65,
         ctx,
         Player,
         Text,
+        EffectManager,
       }),
       new Colorbox({
-        color: "#f9be7c",
+        color: {
+          r: 249,
+          g: 190,
+          b: 124,
+          a: 1,
+        },
         radius: this.Player.size * 0.65,
         ctx,
         Player,
         Text,
+        EffectManager,
       }),
       new Colorbox({
-        color: "#309397",
+        color: {
+          r: 48,
+          g: 147,
+          b: 151,
+          a: 1,
+        },
         radius: this.Player.size * 0.65,
         ctx,
         Player,
         Text,
+        EffectManager,
       }),
       new Colorbox({
-        color: "#6488ea",
+        color: {
+          r: 100,
+          g: 136,
+          b: 234,
+          a: 1,
+        },
         radius: this.Player.size * 0.65,
         ctx,
         Player,
         Text,
+        EffectManager,
       }),
       new Colorbox({
-        color: "rebeccapurple",
+        color: {
+          r: 102,
+          g: 51,
+          b: 153,
+          a: 1,
+        },
         radius: this.Player.size * 0.65,
         ctx,
         Player,
         Text,
+        EffectManager,
       }),
     ];
     this.shuffleBoxes();
