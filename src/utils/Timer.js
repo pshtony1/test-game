@@ -19,6 +19,8 @@ class Timer {
         timerObject: null,
         countStarted: false,
       };
+    } else if (this.state.gameState === 2 && this.state.stateChanging) {
+      this.state.gameTime = (0).toFixed(2);
     }
   }
 

@@ -67,6 +67,12 @@ class Eater {
       this.size = 0;
       this.eaterState = 0;
       this.opacity = 0;
+      this.color = {
+        r: 255,
+        g: 99,
+        b: 71,
+        a: 0,
+      };
     }
   }
 
@@ -109,6 +115,7 @@ class Eater {
     if (calcDist() + offset < this.size + calcPlayerRadius()) {
       if (!this.isColliding) {
         this.state.gameState = 2;
+        this.Frame.frameAnimator = null;
       }
     } else {
       this.isColliding = false;
@@ -180,7 +187,10 @@ class Eater {
     let gX = this.pos.x - (this.Player.pos.x + this.Player.size / 2);
     let gY = this.pos.y - (this.Player.pos.y + this.Player.size / 2);
     const dist = Math.sqrt(gX ** 2 + gY ** 2);
-    const maxDist = (Math.sqrt(2) * this.Frame.frameRect.width) / 2;
+    const maxDist =
+      Math.sqrt(
+        this.Frame.frameRect.width ** 2 + this.Frame.frameRect.height ** 2
+      ) / 2;
 
     this.gScale =
       ((maxDist - dist) / maxDist) * (maxGScale - minGScale) + minGScale;

@@ -1,3 +1,5 @@
+import { bezier } from "../lib/bezier-easing/index.js";
+
 class Frame {
   constructor({ state, canvas, ctx, Player }) {
     this.state = state;
@@ -15,6 +17,8 @@ class Frame {
       height: this.canvas.height / 2,
     };
 
+    this.frameAnimator = null;
+
     window.addEventListener("keydown", (e) => {
       if (
         e.keyCode === 32 &&
@@ -31,23 +35,25 @@ class Frame {
       this.drawMainFrame();
       if (!this.state.stateChanging) {
         this.checkCollide();
-      } else {
-        const animate = this.getFrameAnimate(
+      } else if (!this.frameAnimator) {
+        this.frameAnimator = this.getFrameAnimate(
           {
             toWidth: "70%",
             toHeight: "70%",
           },
-          8,
+          600,
+          [0.22, 0.68, 0, 1],
           {
             x: this.canvas.width / 2 - this.Player.size / 2,
             y: this.frameRect.y + (this.frameRect.height * 4) / 5,
           }
         );
-
-        const isAniEnd = animate();
+      } else if (this.frameAnimator) {
+        const isAniEnd = this.frameAnimator();
 
         if (isAniEnd) {
           this.state.stateChanging = false;
+          this.frameAnimator = null;
           this.state.gameState = 1;
         }
       }
@@ -55,31 +61,55 @@ class Frame {
       this.drawMainFrame();
       this.checkCollide();
 
-      // if (this.state.stateChanging) {
-      //   this.state.stateChanging = false;
-      //   this.state.gameState = 2;
+      // // Test Pattern
+      // if (parseFloat(this.state.gameTime) > 3) {
+      //   if (!this.frameAnimator) {
+      //     this.frameAnimator = this.getFrameAnimate(
+      //       {
+      //         toWidth: "90%",
+      //         toHeight: "20%",
+      //       },
+      //       2000,
+      //       [0.22, 0.68, 0, 1]
+      //     );
+      //   } else if (this.frameAnimator) {
+      //     const isAniEnd = this.frameAnimator();
+
+      //     if (isAniEnd) {
+      //       this.frameAnimator = this.getFrameAnimate(
+      //         {
+      //           toWidth: "20%",
+      //           toHeight: "90%",
+      //         },
+      //         2000,
+      //         [0.22, 0.68, 0, 1]
+      //       );
+      //     }
+      //   }
       // }
     } else if (this.state.gameState === 2) {
       this.drawMainFrame();
       if (!this.state.stateChanging) {
         this.checkCollide();
-      } else {
-        const animate = this.getFrameAnimate(
+      } else if (!this.frameAnimator) {
+        this.frameAnimator = this.getFrameAnimate(
           {
             toWidth: "50%",
             toHeight: "50%",
           },
-          8,
+          600,
+          [0.22, 0.68, 0, 1],
           {
             x: this.canvas.width / 2 - this.Player.size / 2,
             y: this.canvas.height / 2 - this.Player.size / 2,
           }
         );
-
-        const isAniEnd = animate();
+      } else if (this.frameAnimator) {
+        const isAniEnd = this.frameAnimator();
 
         if (isAniEnd) {
           this.state.stateChanging = false;
+          this.frameAnimator = null;
           this.state.gameStarted = false;
           this.state.gameState = 0;
         }
@@ -159,7 +189,12 @@ class Frame {
     }
   }
 
-  getFrameAnimate({ toWidth, toHeight }, speed = 8, initPlayerPos = null) {
+  getFrameAnimate(
+    { toWidth, toHeight },
+    duration = 1000,
+    easing = [0, 0, 1, 1],
+    initPlayerPos = null
+  ) {
     if (typeof toWidth === "string") {
       toWidth =
         (this.canvas.width * parseInt(toWidth.slice(0, toWidth.length - 1))) /
@@ -173,6 +208,15 @@ class Frame {
         100;
     }
 
+    const startTime = new Date().getTime();
+
+    const startPoint = {
+      x: this.frameRect.x,
+      y: this.frameRect.y,
+      width: this.frameRect.width,
+      height: this.frameRect.height,
+    };
+
     const endPoint = {
       x: (this.canvas.width - toWidth) / 2 - this.thickness / 2,
       y: (this.canvas.height - toHeight) / 2 - this.thickness / 2,
@@ -181,19 +225,46 @@ class Frame {
     };
 
     const animate = () => {
-      if (Math.abs(endPoint.x - this.frameRect.x) >= 1) {
-        this.frameRect.x += (endPoint.x - this.frameRect.x) / speed;
-        this.frameRect.width += (endPoint.width - this.frameRect.width) / speed;
-        this.frameRect.y += (endPoint.y - this.frameRect.y) / speed;
-        this.frameRect.height +=
-          (endPoint.height - this.frameRect.height) / speed;
+      const curTime = new Date().getTime();
+      const timeRate = (curTime - startTime) / duration;
+
+      if (timeRate < 1) {
+        const bezierEasing = bezier(...easing);
+
+        this.frameRect.x =
+          endPoint.x > startPoint.x
+            ? Math.abs(endPoint.x - startPoint.x) * bezierEasing(timeRate) +
+              startPoint.x
+            : startPoint.x -
+              Math.abs(endPoint.x - startPoint.x) * bezierEasing(timeRate);
+
+        this.frameRect.y =
+          endPoint.y > startPoint.y
+            ? Math.abs(endPoint.y - startPoint.y) * bezierEasing(timeRate) +
+              startPoint.y
+            : startPoint.y -
+              Math.abs(endPoint.y - startPoint.y) * bezierEasing(timeRate);
+
+        this.frameRect.width =
+          endPoint.width > startPoint.width
+            ? Math.abs(endPoint.width - startPoint.width) *
+                bezierEasing(timeRate) +
+              startPoint.width
+            : startPoint.width -
+              Math.abs(endPoint.width - startPoint.width) *
+                bezierEasing(timeRate);
+
+        this.frameRect.height =
+          endPoint.height > startPoint.height
+            ? Math.abs(endPoint.height - startPoint.height) *
+                bezierEasing(timeRate) +
+              startPoint.height
+            : startPoint.height -
+              Math.abs(endPoint.height - startPoint.height) *
+                bezierEasing(timeRate);
+
         return false;
       } else {
-        this.frameRect.x = endPoint.x;
-        this.frameRect.width = endPoint.width;
-        this.frameRect.y = endPoint.y;
-        this.frameRect.height = endPoint.height;
-
         if (initPlayerPos) {
           this.Player.pos = {
             x: initPlayerPos.x,

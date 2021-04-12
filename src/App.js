@@ -13,7 +13,7 @@ class App {
     this.FPS = 60;
     this.state = {
       gameState: 0,
-      stateChanging: false,
+      stateChanging: true,
       gameStarted: false,
       bestTime: (0).toFixed(2),
       gameTime: (0).toFixed(2),

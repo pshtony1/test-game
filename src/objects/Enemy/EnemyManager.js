@@ -15,7 +15,6 @@ class EnemyManager {
 
   update() {
     if (this.state.gameState === 1 && this.state.gameStarted) {
-      console.log(this.enemies);
       if (!this.startCreating) {
         this.startCreating = true;
         this.createEnemy();

@@ -26,13 +26,25 @@ Remastering Avoid Blobs more better
   - Enemy 구현
   - Eater / Enemy 충돌 구현(Animation, 크기 증가)
 
+- 2021-04-12
+
+  - Frame Animation 확장성있게 수정
+  - 중력 버그 개선(일정 범위를 넘어가면 역중력이 발생하는 버그)
+  - 타이머 버그 수정(게임이 끝나도 타이머가 유지되는 버그)
+
 ## 문제를 해결한 것들
 
 - 2021-04-10
 
-  - 클로저를 이용해 Frame Animation을 쉽게 구현했다.
+  - 클로저를 이용해 Canvas Animation을 쉽게 구현했다.
   - keydown을 이용해 Player의 움직임을 구현했을 때 불편한 것 해결함.
 
 - 2021-04-11
 
-  - 대단히 막혔던 부분은 없음.
+  - 대단히 막혔던 부분은 없음.4
+
+## 아이디어
+
+- Player 색 슬라이드로
+- Player와 game time text가 닿으면 opacity 조정
+- effect에 ease 효과
