@@ -32,6 +32,14 @@ Remastering Avoid Blobs more better
   - 중력 버그 개선(일정 범위를 넘어가면 역중력이 발생하는 버그)
   - 타이머 버그 수정(게임이 끝나도 타이머가 유지되는 버그)
 
+- 2021-04-13
+
+  - Effect 완성(Animation 까지)
+
+- 2021-04-14
+
+  - Eater의 Wave Animation 구현 완료
+
 ## 문제를 해결한 것들
 
 - 2021-04-10
@@ -39,13 +47,17 @@ Remastering Avoid Blobs more better
   - 클로저를 이용해 Canvas Animation을 쉽게 구현했다.
   - keydown을 이용해 Player의 움직임을 구현했을 때 불편한 것 해결함.
 
-- 2021-04-11
+- 2021-04-11 ~ 2021-04-13
 
-  - 대단히 막혔던 부분은 없음.4
+  - 대단히 막혔던 부분은 없음.
+
+- 2021-04-14
+
+  - 원형 Wave 알고리즘
 
 ## 아이디어
 
-- Player 색 슬라이드로
-- Player와 game time text가 닿으면 opacity 조정
-- effect에 ease 효과
-- text move animation
+- [ ] Player 색 슬라이드로 고를 수 있게
+- [ ] Player와 game time text가 닿으면 text의 opacity 조정
+- [x] effect에 ease 효과
+- [ ] text move animation

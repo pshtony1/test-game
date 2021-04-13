@@ -1,4 +1,5 @@
-import { bezier } from "../lib/bezier-easing/index.js";
+import { bezier } from "../../lib/bezier-easing/index.js";
+import Wave from "./Wave/Wave.js";
 
 class Eater {
   constructor({ state, canvas, ctx, Player, Text, Frame }) {
@@ -25,6 +26,7 @@ class Eater {
       a: 0,
     };
     this.resizeFactor = undefined;
+    this.Wave = null;
     this.updateResizeFactor({ width: 600 });
   }
 
@@ -34,7 +36,7 @@ class Eater {
       this.checkCollide();
 
       if (this.eaterState === 0 && !this.eaterAnimator) {
-        this.eaterAnimator = this.getEaterAnimate(this.canvas.width / 60, 550, [
+        this.eaterAnimator = this.getEaterAnimate(this.canvas.width / 15, 550, [
           0.22,
           0.68,
           0,
@@ -73,6 +75,7 @@ class Eater {
         b: 71,
         a: 0,
       };
+      this.Wave = null;
     }
   }
 
@@ -92,9 +95,13 @@ class Eater {
 
   draw() {
     this.ctx.beginPath();
-    this.ctx.arc(this.pos.x, this.pos.y, this.size, 0, Math.PI * 2);
-    this.ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.color.a})`;
-    this.ctx.fill();
+    if (!this.Wave) {
+      this.ctx.arc(this.pos.x, this.pos.y, this.size, 0, Math.PI * 2);
+      this.ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.color.a})`;
+      this.ctx.fill();
+    } else {
+      this.Wave.update();
+    }
     this.ctx.closePath();
   }
 
@@ -213,6 +220,23 @@ class Eater {
       0,
       1,
     ]);
+  }
+
+  setWave(totalPoints) {
+    this.Wave = new Wave({
+      state: this.state,
+      canvas: this.canvas,
+      ctx: this.ctx,
+      totalPoints,
+      Eater: this,
+      color: this.color,
+    });
+  }
+
+  destroyWave() {
+    if (this.Wave) {
+      this.Wave = null;
+    }
   }
 }
 

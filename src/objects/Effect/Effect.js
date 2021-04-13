@@ -11,6 +11,8 @@ class Effect {
     this.spreadSpeed = data.spreadSpeed;
     this.lifeTime = data.lifeTime;
     this.thickness = data.thickness;
+    this.resizeFactor = undefined;
+    this.updateResizeFactor({ width: 600 });
     this.effectUpdater = this.getEffectUpdater(easing);
   }
 
@@ -26,7 +28,16 @@ class Effect {
     }
   }
 
-  resize(beforeSize) {}
+  resize(beforeSize) {
+    this.pos.x *= this.canvas.width / beforeSize.width;
+    this.pos.y *= this.canvas.height / beforeSize.height;
+    this.size *= this.canvas.width / beforeSize.width;
+    this.updateResizeFactor(beforeSize);
+  }
+
+  updateResizeFactor(beforeSize) {
+    this.resizeFactor = this.canvas.width / beforeSize.width;
+  }
 
   draw() {
     this.ctx.beginPath();
@@ -50,8 +61,8 @@ class Effect {
 
       if (timeRate < 1) {
         this.size += this.spreadSpeed;
-        this.spreadSpeed = startSpeed * (1 - bezierRate);
-        this.thickness = startThickness * (1 - bezierRate);
+        this.spreadSpeed = startSpeed * this.resizeFactor * (1 - bezierRate);
+        this.thickness = startThickness * this.resizeFactor * (1 - bezierRate);
         this.color.a = 1 - bezierRate;
 
         if (this.thickness < 4) this.thickness = 4;

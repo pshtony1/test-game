@@ -2,7 +2,7 @@ import Frame from "./objects/Frame.js";
 import Player from "./objects/Player.js";
 import Text from "./objects/Text.js";
 import ColorboxManager from "./objects/Colorbox/ColorboxManager.js";
-import Eater from "./objects/Eater.js";
+import Eater from "./objects/Eater/Eater.js";
 import Timer from "./utils/Timer.js";
 import EnemyManager from "./objects/Enemy/EnemyManager.js";
 import EffectManager from "./objects/Effect/EffectManager.js";
