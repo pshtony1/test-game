@@ -277,7 +277,6 @@ class Text {
     duration = 1000,
     easing = [0, 0, 1, 1]
   ) {
-    console.log(toOpacity);
     const startTime = new Date();
     const bezierEasing = bezier(...easing);
 
