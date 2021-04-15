@@ -48,6 +48,7 @@ class App {
       canvas: this.canvas,
       ctx: this.ctx,
       Frame: this.Frame,
+      Player: this.Player,
     });
     this.ColorboxManager = new ColorboxManager({
       state: this.state,
