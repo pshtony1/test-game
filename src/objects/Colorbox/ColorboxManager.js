@@ -12,9 +12,9 @@ class ColorboxManager {
     this.boxes = [
       new Colorbox({
         color: {
-          r: 228,
-          g: 106,
-          b: 114,
+          r: 255,
+          g: 255,
+          b: 255,
           a: 1,
         },
         radius: this.Player.size * 0.65,

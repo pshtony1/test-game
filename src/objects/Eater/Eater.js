@@ -21,8 +21,8 @@ class Eater {
     this.eaterColorAnimator = null;
     this.color = {
       r: 255,
-      g: 99,
-      b: 71,
+      g: 255,
+      b: 255,
       a: 0,
     };
     this.resizeFactor = undefined;
@@ -36,7 +36,7 @@ class Eater {
       this.checkCollide();
 
       if (this.eaterState === 0 && !this.eaterAnimator) {
-        this.eaterAnimator = this.getEaterAnimate(this.canvas.width / 15, 550, [
+        this.eaterAnimator = this.getEaterAnimate(this.canvas.width / 10, 550, [
           0.22,
           0.68,
           0,
@@ -71,8 +71,8 @@ class Eater {
       this.opacity = 0;
       this.color = {
         r: 255,
-        g: 99,
-        b: 71,
+        g: 255,
+        b: 255,
         a: 0,
       };
       this.Wave = null;
@@ -87,6 +87,10 @@ class Eater {
 
     this.size *= this.canvas.width / beforeSize.width;
     this.updateResizeFactor(beforeSize);
+
+    if (this.Wave) {
+      this.Wave.resize(beforeSize);
+    }
   }
 
   updateResizeFactor(beforeSize) {
@@ -139,7 +143,7 @@ class Eater {
 
       if (timeRate < 1) {
         this.size = toSize * bezierEasing(timeRate);
-        this.color.a = 0.5 + 0.5 * bezierEasing(timeRate);
+        this.color.a = 0.6 * bezierEasing(timeRate);
 
         return false;
       } else {
@@ -177,6 +181,12 @@ class Eater {
               this.color.b
             : this.color.b -
               Math.abs(toColor.b - this.color.b) * bezierEasing(timeRate);
+        this.color.a =
+          toColor.a > this.color.a
+            ? Math.abs(toColor.a - this.color.a) * bezierEasing(timeRate) +
+              this.color.a
+            : this.color.a -
+              Math.abs(toColor.a - this.color.a) * bezierEasing(timeRate);
 
         return false;
       } else {
@@ -222,7 +232,7 @@ class Eater {
     ]);
   }
 
-  setWave(totalPoints) {
+  setWave(totalPoints, enemyPos) {
     this.Wave = new Wave({
       state: this.state,
       canvas: this.canvas,
@@ -230,6 +240,7 @@ class Eater {
       totalPoints,
       Eater: this,
       color: this.color,
+      enemyPos,
     });
   }
 

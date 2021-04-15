@@ -1,13 +1,14 @@
 import Point from "./Point.js";
 
 class Wave {
-  constructor({ state, canvas, ctx, totalPoints, Eater, color }) {
+  constructor({ state, canvas, ctx, totalPoints, Eater, color, enemyPos }) {
     this.state = state;
     this.canvas = canvas;
     this.ctx = ctx;
     this.totalPoints = totalPoints;
     this.Eater = Eater;
     this.color = color;
+    this.enemyPos = enemyPos;
     this.points = [];
 
     this.createPoints();
@@ -21,7 +22,11 @@ class Wave {
     this.draw();
   }
 
-  resize(beforeSize) {}
+  resize(beforeSize) {
+    for (const point of this.points) {
+      point.resize(beforeSize);
+    }
+  }
 
   draw() {
     this.ctx.beginPath();
@@ -48,7 +53,15 @@ class Wave {
   }
 
   createPoints() {
-    const curProb = Math.random();
+    const getDistance = (point) => {
+      return Math.sqrt(
+        (this.enemyPos.x - point.pos.x) ** 2 +
+          (this.enemyPos.y - point.pos.y) ** 2
+      );
+    };
+
+    let closePointIdx = undefined;
+    let closeDist = Infinity;
 
     for (let i = 0; i < this.totalPoints; i++) {
       const point = new Point({
@@ -59,9 +72,39 @@ class Wave {
         radius: this.Eater.size,
         angle: i * (360 / this.totalPoints),
         Eater: this.Eater,
-        curProb,
       });
+
       this.points.push(point);
+
+      const dist = getDistance(point);
+      if (dist < closeDist) {
+        closePointIdx = i;
+        closeDist = dist;
+      }
+    }
+
+    for (let i = 0; i < this.totalPoints; i++) {
+      if (i % 2 === closePointIdx % 2) {
+        if (i === closePointIdx) {
+          this.points[i].setCurAndAmplitude(true, true);
+        } else {
+          this.points[i].setCurAndAmplitude(true);
+        }
+      } else {
+        if (
+          (closePointIdx !== this.totalPoints - 1 && i === closePointIdx + 1) ||
+          (closePointIdx !== 0 && i === closePointIdx - 1)
+        ) {
+          this.points[i].setCurAndAmplitude(false, true);
+        } else if (
+          (closePointIdx === this.totalPoints - 1 && i === 0) ||
+          (closePointIdx === 0 && i === this.totalPoints - 1)
+        ) {
+          this.points[i].setCurAndAmplitude(false, true);
+        } else {
+          this.points[i].setCurAndAmplitude(false);
+        }
+      }
     }
   }
 }

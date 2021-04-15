@@ -40,6 +40,10 @@ Remastering Avoid Blobs more better
 
   - Eater의 Wave Animation 구현 완료
 
+- 2021-04-15
+
+  - Eater Wave Animation을 먹은 Enemy의 위치와 상호작용하도록 개선
+
 ## 문제를 해결한 것들
 
 - 2021-04-10
@@ -51,7 +55,7 @@ Remastering Avoid Blobs more better
 
   - 대단히 막혔던 부분은 없음.
 
-- 2021-04-14
+- 2021-04-14 ~ 2021-04-15
 
   - 원형 Wave 알고리즘
 
@@ -59,5 +63,4 @@ Remastering Avoid Blobs more better
 
 - [ ] Player 색 슬라이드로 고를 수 있게
 - [ ] Player와 game time text가 닿으면 text의 opacity 조정
-- [x] effect에 ease 효과
 - [ ] text move animation

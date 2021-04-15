@@ -18,10 +18,10 @@ class Player {
       upper: 3,
     };
     this.color = {
-      r: 255,
-      g: 255,
-      b: 255,
-      a: 0.6,
+      r: 228,
+      g: 106,
+      b: 114,
+      a: 1,
     };
     this.resizeFactor = 1;
     this.canMove = true;

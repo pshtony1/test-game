@@ -107,7 +107,7 @@ class EnemyManager {
 
     this.enemies.push(newEnemy);
 
-    const createTimeGap = 400 - this.state.gameTime * 3;
+    const createTimeGap = 500 - this.state.gameTime * 3;
 
     setTimeout(this.createEnemy.bind(this), createTimeGap);
   }
@@ -125,7 +125,7 @@ class EnemyManager {
           lifeTime: null,
         });
         this.Eater.size += 0.5 * this.resizeFactor;
-        this.Eater.setWave(12);
+        this.Eater.setWave(16, Object.assign({}, this.enemies[i].pos));
         this.enemies.splice(i, 1);
       }
     }
