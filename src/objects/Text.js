@@ -10,7 +10,7 @@ class Text {
     this.titleFont = {
       size: 30,
       maxSize: 30,
-      name: "Comic Sans MS",
+      name: "Comic Sans Custom",
       color: {
         r: 255,
         g: 255,
@@ -21,7 +21,7 @@ class Text {
     this.subTitleFont = {
       size: 20,
       maxSize: 20,
-      name: "Comic Sans MS",
+      name: "Comic Sans Custom",
       color: {
         r: 255,
         g: 255,
@@ -32,7 +32,7 @@ class Text {
     this.BestTimeFont = {
       size: 20,
       maxSize: 20,
-      name: "Comic Sans MS",
+      name: "Comic Sans Custom",
       color: {
         r: 255,
         g: 204,
@@ -45,7 +45,7 @@ class Text {
     this.gameTimeFont = {
       size: 26,
       maxSize: 26,
-      name: "Comic Sans MS",
+      name: "Comic Sans Custom",
       color: {
         r: 255,
         g: 255,

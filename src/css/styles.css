@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "Comic Sans MS";
-  src: url("/src/fonts/Comic-Sans/COMIC.TTF");
+  font-family: "Comic Sans Custom";
+  src: url("./src/fonts/Comic-Sans/comici.ttf") format("truetype");
 }
 
 * {
