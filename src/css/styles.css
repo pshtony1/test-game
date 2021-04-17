@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Comic Sans Custom";
   /* deploy */
-  src: url("./src/fonts/Comic-Sans/ComicSansMS3.ttf") format("truetype");
+  src: url("../src/fonts/Comic-Sans/ComicSansMS3.ttf") format("truetype");
   /* dev */
   /* src: url("/src/fonts/Comic-Sans/ComicSansMS3.ttf") format("truetype"); */
 }
