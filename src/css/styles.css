@@ -1,6 +1,9 @@
 @font-face {
   font-family: "Comic Sans Custom";
-  src: url("./src/fonts/Comic-Sans/comici.ttf") format("truetype");
+  /* deploy */
+  src: url("./src/fonts/Comic-Sans/ComicSansMS3.ttf") format("truetype");
+  /* dev */
+  /* src: url("/src/fonts/Comic-Sans/ComicSansMS3.ttf") format("truetype"); */
 }
 
 * {
