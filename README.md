@@ -2,6 +2,8 @@
 
 Remastering Avoid Blobs more better
 
+[프로젝트 링크](https://pshtony1.github.io/test-game/)
+
 ## 구현한 것들
 
 - 2021-04-10
